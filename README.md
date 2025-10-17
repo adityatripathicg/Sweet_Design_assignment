@@ -411,15 +411,6 @@ NODE_ENV=development DEBUG=* npm run backend:dev
 - Update documentation for API changes
 - Ensure all linting passes (`npm run lint`)
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Support
-
-- **Documentation**: [Project Wiki](https://github.com/sweet-design-hub/automation-platform/wiki)
-- **Issues**: [GitHub Issues](https://github.com/sweet-design-hub/automation-platform/issues)
-- **Email**: support@sweetdesignhub.com
 
 ## 🎯 Roadmap
 
@@ -438,6 +429,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Built with ❤️ by Sweet Design Hub**
-
-*Empowering businesses to automate processes without engineering dependencies.*
