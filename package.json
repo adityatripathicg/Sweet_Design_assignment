@@ -1,0 +1,31 @@
+{
+  "name": "sweet-design-hub-automation",
+  "version": "1.0.0",
+  "description": "Business Process Automation Platform with drag-and-drop workflow builder",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "frontend:dev": "cd frontend && npm start",
+    "backend:dev": "cd backend && npm run dev",
+    "frontend:build": "cd frontend && npm run build",
+    "backend:build": "cd backend && npm run build",
+    "frontend:install": "cd frontend && npm install",
+    "backend:install": "cd backend && npm install",
+    "install:all": "npm install && npm run frontend:install && npm run backend:install",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "db:migrate": "cd backend && npm run migrate"
+  },
+  "keywords": [
+    "business-automation",
+    "workflow-builder",
+    "drag-drop",
+    "react-flow",
+    "groq-ai"
+  ],
+  "author": "Sweet Design Hub",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
