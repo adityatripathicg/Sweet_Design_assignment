@@ -118,3 +118,10 @@ docker-compose.override.yml
 # Package manager lock files (keep one, ignore others)
 package-lock.json
 yarn.lock
+
+# Documentation files (keep README.md, ignore others)
+*.md
+!README.md
+
+# Deployment artifacts
+deployment/*.txt

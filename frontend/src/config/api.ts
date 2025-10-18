@@ -1,6 +1,6 @@
 // API Configuration for production and development
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? window.location.origin // Same origin for production (Vercel deployment)
+  ? process.env.REACT_APP_API_URL || 'https://sweet-design-hub-backend.onrender.com'
   : process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 export const API_ENDPOINTS = {
