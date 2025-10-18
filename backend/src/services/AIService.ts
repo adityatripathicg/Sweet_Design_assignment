@@ -3,16 +3,22 @@ import { AIConfig, AIProcessResult } from '../types';
 import { logAIRequest } from '../middleware/logger';
 
 export class AIService {
-  private groq: Groq;
+  private groq: Groq | null;
+  private useMockMode: boolean;
 
   constructor() {
-    if (!process.env.GROQ_API_KEY) {
-      throw new Error('GROQ_API_KEY environment variable is required');
+    const apiKey = process.env.GROQ_API_KEY;
+    
+    if (!apiKey) {
+      console.warn('⚠️  GROQ_API_KEY not provided - using MOCK AI mode');
+      this.groq = null;
+      this.useMockMode = true;
+    } else {
+      this.groq = new Groq({
+        apiKey: apiKey,
+      });
+      this.useMockMode = false;
     }
-
-    this.groq = new Groq({
-      apiKey: process.env.GROQ_API_KEY,
-    });
   }
 
   async processData(config: any, inputData: any): Promise<any> {
@@ -22,6 +28,11 @@ export class AIService {
     try {
       // Prepare the prompt with input data
       const fullPrompt = this.buildPrompt(aiConfig.prompt, inputData);
+      
+      // Use mock mode if no API key
+      if (this.useMockMode || !this.groq) {
+        return this.generateMockResponse(fullPrompt, inputData, aiConfig);
+      }
       
       // Make the AI request
       const completion = await this.groq.chat.completions.create({
@@ -148,6 +159,16 @@ export class AIService {
   // Method to test AI connectivity and API key
   async testConnection(): Promise<AIProcessResult> {
     try {
+      // Use mock mode if no API key
+      if (this.useMockMode || !this.groq) {
+        return {
+          success: true,
+          result: '🎭 Mock AI mode active - AI connection successful (demo mode)',
+          tokens_used: 0,
+          processing_time: 100,
+        };
+      }
+      
       const testPrompt = 'Respond with "AI connection successful" to confirm the API is working.';
       
       const completion = await this.groq.chat.completions.create({
@@ -271,6 +292,44 @@ export class AIService {
       data: dataString.substring(0, maxLength),
       truncated: true,
       originalLength: dataString.length,
+    };
+  }
+
+  // Generate mock AI response when no API key is available
+  private generateMockResponse(prompt: string, inputData: any, config: any): any {
+    console.log('🎭 Generating mock AI response (no API key provided)');
+    
+    const mockAnalysis = {
+      summary: 'This is a mock AI analysis result. To use real AI, provide a GROQ_API_KEY.',
+      insights: [
+        'Mock insight: Your workflow is configured correctly',
+        'Mock insight: The data structure looks valid',
+        'Mock insight: This is demonstration mode'
+      ],
+      recommendations: [
+        'Add a real GROQ API key to get actual AI analysis',
+        'Test your workflow logic with sample data',
+        'Deploy and configure API keys in production'
+      ],
+      dataProcessed: Array.isArray(inputData) ? inputData.length : 1,
+      mockMode: true
+    };
+
+    return {
+      success: true,
+      result: mockAnalysis,
+      metadata: {
+        model: config.model || 'mock-model',
+        tokensUsed: 0,
+        processingTime: 50,
+        prompt: {
+          length: prompt.length,
+          temperature: config.temperature || 0.7,
+          maxTokens: config.maxTokens || 1000,
+        },
+        executedAt: new Date().toISOString(),
+        mockMode: true,
+      },
     };
   }
 }

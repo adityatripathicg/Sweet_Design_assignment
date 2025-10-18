@@ -1,5 +1,5 @@
 services:
-  # Backend API Service
+  # Backend API Service (with Mock Database)
   - type: web
     name: sweet-design-hub-backend
     env: node
@@ -12,44 +12,5 @@ services:
         value: production
       - key: PORT
         value: 10000
-      - key: DB_HOST
-        fromDatabase:
-          name: sweet-automation-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: sweet-automation-db
-          property: port
-      - key: DB_NAME
-        fromDatabase:
-          name: sweet-automation-db
-          property: database
-      - key: DB_USER
-        fromDatabase:
-          name: sweet-automation-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: sweet-automation-db
-          property: password
-      - key: GROQ_API_KEY
-        sync: false
-      - key: JWT_SECRET
-        sync: false
-      - key: ENCRYPTION_KEY
-        sync: false
-      - key: CORS_ORIGIN
-        sync: false
-      - key: SLACK_WEBHOOK_URL
-        sync: false
-      - key: SENDGRID_API_KEY
-        sync: false
-
-  # PostgreSQL Database
-  - type: pserv
-    name: sweet-automation-db
-    plan: free
-    env: postgresql
-    databaseName: sweet_automation
-    databaseUser: postgres
-    ipAllowList: []
+      - key: USE_MOCK_DB
+        value: true

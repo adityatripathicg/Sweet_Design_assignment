@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 3001;
 // Security and CORS
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: process.env.CORS_ORIGIN || '*',
   credentials: true,
 }));
 
